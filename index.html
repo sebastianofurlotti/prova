@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Mio Sito Web</title>
+    <style>
+        /* Aggiungi qui il tuo stile CSS personalizzato */
+    </style>
+</head>
+<body>
+    <h1>Archivio Foto</h1>
+
+    <!-- Esempio di tabella per visualizzare i dati dal CSV -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nome Foto</th>
+                <th>Descrizione</th>
+                <th>Immagine</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- I dati dal CSV verranno inseriti qui -->
+        </tbody>
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        // URL del tuo file CSV
+        const csvURL = 'link-al-tuo-file.csv';
+
+        // Funzione per caricare e visualizzare i dati dal CSV
+        function loadCSV() {
+            Papa.parse(csvURL, {
+                header: true,
+                dynamicTyping: true,
+                complete: function(results) {
+                    const tableBody = document.getElementById('table-body');
+                    results.data.forEach(row => {
+                        // Creazione di una riga nella tabella
+                        const newRow = document.createElement('tr');
+
+                        // Colonna Testo
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = row['Testo'];
+
+            
+                        // Colonna Immagine
+                        const imageCell = document.createElement('td');
+                        const image = document.createElement('img');
+                        image.src = row['Immagine']; // Assicurati che il nome della colonna corrisponda al tuo CSV
+                        image.alt = row['Testo']; // Usiamo il nome della foto come testo alternativo
+                        imageCell.appendChild(image);
+
+                        // Aggiungi le colonne alla riga
+                        newRow.appendChild(nameCell);
+                        newRow.appendChild(descriptionCell);
+                        newRow.appendChild(imageCell);
+
+                        // Aggiungi la riga alla tabella
+                        tableBody.appendChild(newRow);
+                    });
+                }
+            });
+        }
+
+        // Chiama la funzione per caricare i dati dal CSV
+        loadCSV();
+    </script>
+</body>
+</html>
